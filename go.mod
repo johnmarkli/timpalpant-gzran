@@ -1,3 +1,3 @@
-module github.com/timpalpant/gzran
+module github.com/johnmarkli/timpalpant-gzran
 
-go 1.15
+go 1.20

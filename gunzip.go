@@ -86,7 +86,7 @@ func noEOF(err error) error {
 	return err
 }
 
-// The gzip file stores a header giving metadata about the compressed file.
+// Header stores the gzip header giving metadata about the compressed file.
 // That header is exposed as the fields of the Writer and Reader structs.
 //
 // Strings must be UTF-8 encoded and may only contain Unicode code points
@@ -394,6 +394,7 @@ func (z *Reader) seekToPoint(p Point) (position int64, err error) {
 		z.decompressor, z.err = flate.NewReaderState(z.bufR, p.DecompressorState)
 	}
 	z.pos = p.UncompressedOffset
+	z.furthestRead = z.pos // keep up to date for when Read is called
 	return z.pos, z.err
 }
 

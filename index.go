@@ -1,9 +1,10 @@
 package gzran
 
 import (
-	"encoding/gob"
 	"io"
 	"sort"
+
+	msgpack "github.com/vmihailenco/msgpack/v5"
 )
 
 // Index collects decompressor state at offset Points.
@@ -12,7 +13,7 @@ type Index []Point
 
 // LoadIndex deserializes an Index from the given io.Reader.
 func LoadIndex(r io.Reader) (Index, error) {
-	dec := gob.NewDecoder(r)
+	dec := msgpack.NewDecoder(r)
 	idx := make(Index, 0)
 	err := dec.Decode(&idx)
 	return idx, err
@@ -21,7 +22,7 @@ func LoadIndex(r io.Reader) (Index, error) {
 // WriteTo serializes the index to the given io.Writer.
 // It can be deserialized with LoadIndex.
 func (idx Index) WriteTo(w io.Writer) error {
-	enc := gob.NewEncoder(w)
+	enc := msgpack.NewEncoder(w)
 	return enc.Encode(idx)
 }
 
